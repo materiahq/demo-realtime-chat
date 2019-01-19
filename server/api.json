@@ -1,0 +1,11 @@
+[
+	{
+		"method": "ws",
+		"url": "/test",
+		"controller": "main",
+		"action": "websocket",
+		"permissions": [
+			"Anyone"
+		]
+	}
+]

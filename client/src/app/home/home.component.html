@@ -1,0 +1,16 @@
+<div style="text-align:center">
+  <h1>Materia Realtime Chat</h1>
+  <img
+    width="100"
+    alt="Materia Logo"
+    src="http://getmateria.com/img/logo2.png"
+  />
+
+  <form [formGroup]="form">
+    <mat-form-field>
+      <input formControlName="nickname" matInput placeholder="Nickname" />
+    </mat-form-field>
+
+    <button (click)="join()" mat-raised-button color="primary">JOIN</button>
+  </form>
+</div>

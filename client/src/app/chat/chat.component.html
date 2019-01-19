@@ -1,0 +1,56 @@
+<div fxLayout="row" fxFlex>
+  <div fxLayout="column" fxFlex>
+    <div fxLayout="column" id="messages-container" fxFlex>
+      <div *ngFor="let message of messages">
+        <div class="server-message"
+          *ngIf="!message.nickname"
+        >
+          * {{ message.data }}
+        </div>
+        <mat-card *ngIf="message.nickname">
+          <mat-card-header>
+            <mat-icon
+              mat-card-avatar
+              >person</mat-icon
+            >
+            <mat-card-title style=""
+              >{{ message.nickname }}
+              <span>{{
+                message.date | date: 'shortTime'
+              }}</span></mat-card-title
+            >
+          </mat-card-header>
+          <mat-card-content>
+            <div *ngFor="let msg of message.data">{{ msg }}</div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+    <form style="padding: 0 16px" [formGroup]="messageForm" fxLayout="row">
+      <mat-form-field appearance="outline" fxFlex>
+        <mat-label>Send a message</mat-label>
+        <input
+          formControlName="message"
+          type="text"
+          matInput
+          placeholder="message"
+        />
+      </mat-form-field>
+      <button (click)="sendMessage()" style="display: none;">Send</button>
+    </form>
+  </div>
+  <div id="users-sidenav">
+    <mat-list>
+      <mat-list-item>
+        Users ({{ users.length }})
+      </mat-list-item>
+      <mat-list-item
+        *ngFor="let user of users"
+      >
+        <mat-icon
+          >lens</mat-icon
+        >{{ user.nickname }}</mat-list-item
+      >
+    </mat-list>
+  </div>
+</div>
