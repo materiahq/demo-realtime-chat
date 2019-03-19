@@ -3,7 +3,7 @@
     <div fxLayout="column" id="messages-container" fxFlex>
       <div *ngFor="let message of messages">
         <div class="server-message"
-          *ngIf="!message.nickname"
+          *ngIf="! message.nickname"
         >
           * {{ message.data }}
         </div>
@@ -13,7 +13,7 @@
               mat-card-avatar
               >person</mat-icon
             >
-            <mat-card-title style=""
+            <mat-card-title
               >{{ message.nickname }}
               <span>{{
                 message.date | date: 'shortTime'
@@ -26,7 +26,7 @@
         </mat-card>
       </div>
     </div>
-    <form style="padding: 0 16px" [formGroup]="messageForm" fxLayout="row">
+    <form style="padding: 0 16px" [formGroup]="messageForm" fxLayout="row" (submit)="sendMessage()">
       <mat-form-field appearance="outline" fxFlex>
         <mat-label>Send a message</mat-label>
         <input
@@ -36,7 +36,7 @@
           placeholder="message"
         />
       </mat-form-field>
-      <button (click)="sendMessage()" style="display: none;">Send</button>
+      <button type="submit" style="display: none;">Send</button>
     </form>
   </div>
   <div id="users-sidenav">

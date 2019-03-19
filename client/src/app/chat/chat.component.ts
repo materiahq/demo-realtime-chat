@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+
 import { ChatService } from '../chat.service';
 
 @Component({
@@ -8,16 +11,13 @@ import { ChatService } from '../chat.service';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit {
-  form: FormGroup;
-
-  nickname: string;
-
+export class ChatComponent implements OnInit, OnDestroy {
   messageForm: FormGroup;
-
   messages: any[] = [];
-
   users: any[] = [];
+
+  nickname$: Observable<string>;
+  subscription: Subscription;
 
   constructor(
     private fb: FormBuilder,
@@ -27,21 +27,18 @@ export class ChatComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log('hello');
-
     this.messageForm = this.fb.group({
       message: ['']
     });
-    this.route.queryParams.subscribe(params => {
-      console.log('params', params);
-      this.nickname = params.nickname;
+    this.nickname$ = this.route.queryParams.pipe(
+      map((params) => params.nickname)
+    );
 
-      if (this.nickname) {
-        console.log('connect to chat');
+    this.subscription = this.nickname$.subscribe(nickname => {
+      if (nickname) {
         this.messages = [];
         this.users = [];
-        this.chat.connect(this.nickname).subscribe(ev => {
-          console.log('EVENT', ev, typeof ev);
+        this.chat.connect(nickname).subscribe(ev => {
           if (ev.type === 'REFRESH') {
             this.refreshUsers(ev);
           } else if (ev.type === 'JOIN') {
@@ -56,6 +53,17 @@ export class ChatComponent implements OnInit {
         this.router.navigateByUrl('/');
       }
     });
+  }
+
+  sendMessage() {
+    if (this.messageForm.value.message) {
+      this.chat.sendMessage(this.messageForm.value.message);
+      this.messageForm.reset();
+    }
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   private refreshUsers(ev) {
@@ -101,13 +109,6 @@ export class ChatComponent implements OnInit {
           date: new Date()
         }
       ];
-    }
-  }
-
-  sendMessage() {
-    if (this.messageForm.value.message) {
-      this.chat.sendMessage(this.messageForm.value.message);
-      this.messageForm.reset();
     }
   }
 }
