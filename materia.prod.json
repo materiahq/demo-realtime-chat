@@ -1,0 +1,10 @@
+{
+	"url": "http://localhost:8080/",
+	"server": {
+		"host": "localhost",
+		"port": 8080,
+		"ssl": false
+	},
+	"addons": {},
+	"links": []
+}

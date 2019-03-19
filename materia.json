@@ -1,0 +1,17 @@
+{
+	"name": "Realtime Chat Example",
+	"icon": "light-blue-500",
+	"server": {
+		"host": "localhost",
+		"port": 8080,
+		"ssl": false
+	},
+	"links": [],
+	"client": {
+		"www": "client/dist/realtime-chat",
+		"packageJsonPath": "client",
+		"scripts": {
+			"build": "build"
+		}
+	}
+}
