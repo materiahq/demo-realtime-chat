@@ -6,11 +6,11 @@
   />
   <h1>Materia Realtime Chat</h1>
 
-  <form [formGroup]="form">
+  <form [formGroup]="form" (submit)="join()">
     <mat-form-field>
       <input formControlName="nickname" matInput placeholder="Nickname" />
     </mat-form-field>
 
-    <button (click)="join()" mat-raised-button color="primary">JOIN</button>
+    <button type="submit" mat-raised-button color="primary">JOIN</button>
   </form>
 </div>
